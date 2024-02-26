@@ -236,3 +236,5 @@ yarn-error.log*
 /fittoeco_project/media
 /media
 /image
+
+__pycache__
