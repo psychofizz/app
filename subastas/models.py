@@ -8,12 +8,78 @@
 from django.db import models
 
 
+class Addresses(models.Model):
+    address_id = models.IntegerField(primary_key=True)
+    latitude = models.FloatField(blank=True, null=True)
+    longitude = models.FloatField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'addresses'
+        app_label = 'subastas'
+
+
+
+class AuctionCategories(models.Model):
+    auction_category_id = models.IntegerField(primary_key=True)
+    name = models.CharField(max_length=50, blank=True, null=True)
+    color = models.CharField(max_length=10, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'auction_categories'
+        app_label = 'subastas'
+
+
+class AuctionObjects(models.Model):
+    auction_object_id = models.IntegerField(primary_key=True)
+    name = models.CharField(max_length=100, blank=True, null=True)
+    primary_image = models.ForeignKey('Pictures', models.DO_NOTHING, db_column='primary_image', blank=True, null=True)
+    secondary_image = models.ForeignKey('Pictures', models.DO_NOTHING, db_column='secondary_image', related_name='auctionobjects_secondary_image_set', blank=True, null=True)
+    tertiary_image = models.ForeignKey('Pictures', models.DO_NOTHING, db_column='tertiary_image', related_name='auctionobjects_tertiary_image_set', blank=True, null=True)
+    quaternary_image = models.ForeignKey('Pictures', models.DO_NOTHING, db_column='quaternary_image', related_name='auctionobjects_quaternary_image_set', blank=True, null=True)
+    description = models.TextField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'auction_objects'
+        app_label = 'subastas'
+
+
+class AuctionStates(models.Model):
+    auction_state_id = models.IntegerField(primary_key=True)
+    name = models.CharField(max_length=50, blank=True, null=True)
+    color = models.CharField(max_length=10, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'auction_states'
+        app_label = 'subastas'
+
+
+class Auctions(models.Model):
+    auction_code = models.IntegerField(blank=True, null=True)
+    price = models.DecimalField(max_digits=15, decimal_places=2, blank=True, null=True)
+    starting_date = models.DateField(blank=True, null=True)
+    end_date = models.DateField(blank=True, null=True)
+    object = models.ForeignKey(AuctionObjects, models.DO_NOTHING, blank=True, null=True)
+    state = models.ForeignKey(AuctionStates, models.DO_NOTHING, blank=True, null=True)
+    address = models.ForeignKey(Addresses, models.DO_NOTHING, blank=True, null=True)
+    category = models.ForeignKey(AuctionCategories, models.DO_NOTHING, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'auctions'
+        app_label = 'subastas'
+
+
 class AuthGroup(models.Model):
     name = models.CharField(unique=True, max_length=150)
 
     class Meta:
         managed = False
         db_table = 'auth_group'
+        app_label = 'subastas'
 
 
 class AuthGroupPermissions(models.Model):
@@ -25,6 +91,7 @@ class AuthGroupPermissions(models.Model):
         managed = False
         db_table = 'auth_group_permissions'
         unique_together = (('group', 'permission'),)
+        app_label = 'subastas'
 
 
 class AuthPermission(models.Model):
@@ -36,6 +103,7 @@ class AuthPermission(models.Model):
         managed = False
         db_table = 'auth_permission'
         unique_together = (('content_type', 'codename'),)
+        app_label = 'subastas'
 
 
 class AuthUser(models.Model):
@@ -53,6 +121,7 @@ class AuthUser(models.Model):
     class Meta:
         managed = False
         db_table = 'auth_user'
+        app_label = 'subastas'
 
 
 class AuthUserGroups(models.Model):
@@ -64,6 +133,7 @@ class AuthUserGroups(models.Model):
         managed = False
         db_table = 'auth_user_groups'
         unique_together = (('user', 'group'),)
+        app_label = 'subastas'
 
 
 class AuthUserUserPermissions(models.Model):
@@ -75,6 +145,7 @@ class AuthUserUserPermissions(models.Model):
         managed = False
         db_table = 'auth_user_user_permissions'
         unique_together = (('user', 'permission'),)
+        app_label = 'subastas'
 
 
 class DjangoAdminLog(models.Model):
@@ -89,6 +160,7 @@ class DjangoAdminLog(models.Model):
     class Meta:
         managed = False
         db_table = 'django_admin_log'
+        app_label = 'subastas'
 
 
 class DjangoContentType(models.Model):
@@ -99,6 +171,7 @@ class DjangoContentType(models.Model):
         managed = False
         db_table = 'django_content_type'
         unique_together = (('app_label', 'model'),)
+        app_label = 'subastas'
 
 
 class DjangoMigrations(models.Model):
@@ -110,6 +183,7 @@ class DjangoMigrations(models.Model):
     class Meta:
         managed = False
         db_table = 'django_migrations'
+        app_label = 'subastas'
 
 
 class DjangoSession(models.Model):
@@ -120,3 +194,64 @@ class DjangoSession(models.Model):
     class Meta:
         managed = False
         db_table = 'django_session'
+        app_label = 'subastas'
+
+
+class PaymentMethods(models.Model):
+    payment_method_id = models.IntegerField(primary_key=True)
+    payment_method_name = models.CharField(max_length=50, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'payment_methods'
+        app_label = 'subastas'
+
+
+class Pictures(models.Model):
+    picture_id = models.IntegerField(primary_key=True)
+    picture_address = models.CharField(max_length=255, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'pictures'
+        app_label = 'subastas'
+
+
+class Sellers(models.Model):
+    seller_id = models.IntegerField(primary_key=True)
+    user = models.ForeignKey('Users', models.DO_NOTHING, blank=True, null=True)
+    rating = models.IntegerField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'sellers'
+        app_label = 'subastas'
+
+
+class UserTypes(models.Model):
+    user_type_id = models.IntegerField(primary_key=True)
+    user_type = models.CharField(max_length=50, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'user_types'
+        app_label = 'subastas'
+
+
+class Users(models.Model):
+    user_id = models.IntegerField(primary_key=True)
+    first_name = models.CharField(max_length=60, blank=True, null=True)
+    second_name = models.CharField(max_length=60, blank=True, null=True)
+    first_surname = models.CharField(max_length=60, blank=True, null=True)
+    second_surname = models.CharField(max_length=60, blank=True, null=True)
+    user_dni = models.CharField(max_length=30, blank=True, null=True)
+    user_address = models.ForeignKey(Addresses, models.DO_NOTHING, db_column='user_address', blank=True, null=True)
+    verification = models.BooleanField(blank=True, null=True)
+    user_type = models.ForeignKey(UserTypes, models.DO_NOTHING, db_column='user_type', blank=True, null=True)
+    picture = models.ForeignKey(Pictures, models.DO_NOTHING, db_column='picture', blank=True, null=True)
+    payment_method = models.ForeignKey(PaymentMethods, models.DO_NOTHING, db_column='payment_method', blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'users'
+        app_label = 'subastas'

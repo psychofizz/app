@@ -37,7 +37,7 @@ services:
       - "8000:8000"
     env_file: .env
     volumes:
-      - .:/usr/src/app
+      - /Users/saikofisu/Documents/UNAH_2024/IIPAC2024/soft-eng/django-postgres-docker.nosync/app:/usr/src/app
     depends_on:
       - db
 
