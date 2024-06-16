@@ -15,9 +15,8 @@
 
 1b. Actualizar el docker-compose en la linea sobre volumes, use el directorio donde esta ubicado el proyecto.
 
-2. Crear y activar un entorno virtual:
+2. activar un entorno virtual:
     ```bash
-    python -m venv env
     source env/bin/activate  # En Windows usa `env\Scripts\activate`
     ```
     Si no funciona por problemas entre sistemas operativos se puede reconstruir el venv
