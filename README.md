@@ -29,9 +29,7 @@ Además, la plataforma será accesible para todo el público hondureño, ya sea 
 
 ### Prerrequisitos
 
-- Python 3.x
-- Django 3.x
-- PostgreSQL
+- Docker
 
 ### Instalación
 
@@ -49,15 +47,17 @@ Además, la plataforma será accesible para todo el público hondureño, ya sea 
     ```
     Si no funciona por problemas entre sistemas operativos se puede reconstruir el venv
      Para esto borrar los .venv y venv
-     luego ```
-     python3 -m venv venv
-     source venv/bin/activate
-     pip install -r requirements.txt```
+     luego
+   ```bash
+   python3 -m venv venv
+   source venv/bin/activate
+   pip install -r requirements.txt
+   ```
 
-3. Proveedor los datos de conexión para la base de datos en un .env
-
-4. Lanzar docker en consola y ejecutar en /app
-   ```docker-compose up -d --build```
+3. Lanzar docker en consola y ejecutar en /app
+   ```bash
+   docker-compose up -d --build
+   ```
 
 ## Licencia
 
