@@ -30,6 +30,10 @@
 
 3. Lanzar docker en consola y ejecutar en /app
    ```bash
+   docker network create --subnet 172.18.0.0/24 local_network_dev
+   ```
+   luego
+   ```bash
    docker-compose up -d --build
    ```
 
