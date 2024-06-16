@@ -1,3 +1,4 @@
+from django.forms import ValidationError
 from rest_framework import serializers
 from.models import Users, Addresses, UserTypes, Pictures, PaymentMethods
 
@@ -49,5 +50,7 @@ class UserSerializer(serializers.ModelSerializer):
             'verification',
             'user_type',
             'picture',
-            'payment_method'
+            'payment_method',
+            'email',
+            'password'
         ]

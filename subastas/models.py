@@ -250,6 +250,8 @@ class Users(models.Model):
     user_type = models.ForeignKey(UserTypes, models.DO_NOTHING, db_column='user_type', blank=True, null=True)
     picture = models.ForeignKey(Pictures, models.DO_NOTHING, db_column='picture', blank=True, null=True)
     payment_method = models.ForeignKey(PaymentMethods, models.DO_NOTHING, db_column='payment_method', blank=True, null=True)
+    email = models.EmailField(max_length=255, unique=True)
+    password = models.CharField(max_length=128)
 
     class Meta:
         managed = False

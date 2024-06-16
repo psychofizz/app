@@ -28,13 +28,13 @@ def register_new_user (request):
         'verification': request.data.get('verification'),
         'user_type': request.data.get('user_type'),
         'picture': request.data.get('picture'),
-        'payment_method': request.data.get('payment_method')
+        'payment_method': request.data.get('payment_method'),
+        'email': request.data.get('email'),
+        'password': request.data.get('password')
     }
     serializer = UserSerializer(data=data)
-    print(serializer.is_valid())
-    print(serializer.errors)
     if serializer.is_valid():
         serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
-
-    return Response(status.HTTP_400_BAD_REQUEST)
+    else:
+        return Response(serializer.errors,status.HTTP_400_BAD_REQUEST)
